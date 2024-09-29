@@ -1,6 +1,6 @@
 name: CI/CD Pipeline for React App to AWS EKS
 
-on:
+on: 
   push:
     branches: ['master' , 'main']
   pull_request:
