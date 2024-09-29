@@ -17,7 +17,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         node-version: [19]
@@ -32,7 +32,7 @@ jobs:
 
   push-docker-image:
     name: Build Docker image and push to repositories
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: ['build']
     steps:
       - name: Checkout code
@@ -47,7 +47,7 @@ jobs:
       - run: docker push manlineroot12/react-app:latest  
 
   provision-aws-eks-cluster:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: ['build', 'push-docker-image']
     steps:
       - name: AWS EKS Deployment
