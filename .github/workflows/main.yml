@@ -52,12 +52,15 @@ jobs:
     steps:
       - name: AWS EKS Deployment
         uses: actions/checkout@v3
-      - name: install eksctl
-        run: | 
-          curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_Linux_amd64.tar.gz" -o eksctl
+      - name: Install eksctl
+        run: |
+          curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_Linux_amd64" -o eksctl
           sudo mv eksctl /usr/local/bin/eksctl
-          chmod +x /usr/local/bin/eksctl
-          
+          sudo chmod +x /usr/local/bin/eksctl
+      - name: Verify eksctl installation
+        run: |
+          eksctl version   
+      
       - name: Create eks cluster
         run: eksctl create cluster --region ap-south-1 --name demo-cluster --nodegroup-name node-group1 --node-type t2.micro --nodes 4
         env:
