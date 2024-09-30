@@ -83,7 +83,8 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION}} 
+          AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION}}
+        continue-on-error: true
 
       - name: Expose service
         run: kubectl expose deployment nginx-testing --type=LoadBalancer --name=nginx-testing
