@@ -61,7 +61,7 @@ jobs:
         continue-on-error: true
         
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: ['build', 'push-docker-image', 'provision-aws-eks-cluster']
     steps:
       - name: AWS EKS Deployment
