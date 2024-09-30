@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "master" , 'main']
 
-permissions:
+permissions: 
     contents: write   
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
