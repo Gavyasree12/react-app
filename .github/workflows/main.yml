@@ -23,7 +23,7 @@ jobs:
         node-version: [19]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -36,7 +36,7 @@ jobs:
     needs: ['build']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -51,21 +51,20 @@ jobs:
     needs: ['build', 'push-docker-image']
     steps:
       - name: AWS EKS Deployment
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
  
       - name: Create eks cluster
         run: eksctl create cluster --region ap-south-1 --name demo-cluster --nodegroup-name node-group1 --node-type t2.micro --nodes 4
         env:
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        continue-on-error: true
         
   deploy:
     runs-on: self-hosted
     needs: ['build', 'push-docker-image', 'provision-aws-eks-cluster']
     steps:
       - name: AWS EKS Deployment
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Pull the Docker image
         run: docker pull manlineroot12/react-app:latest
@@ -76,7 +75,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION}}
-        continue-on-error: true
     
       - name: Apply deployment
         run: kubectl apply -f deployment.yml --validate=false
@@ -84,7 +82,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION}}
-        continue-on-error: true
 
       - name: Expose service
         run: kubectl expose deployment nginx-testing --type=LoadBalancer --name=nginx-testing
