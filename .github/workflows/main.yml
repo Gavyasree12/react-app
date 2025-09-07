@@ -43,7 +43,7 @@ jobs:
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_TOKEN }}
-      - run: docker build -t manlineroot12/react-app:latest --no-cache .
+      - run: docker build -t react-app:latest --no-cache .
       - run: docker push manlineroot12/react-app:latest  
 
   provision-aws-eks-cluster:
@@ -67,7 +67,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Pull the Docker image
-        run: docker pull manlineroot12/react-app:latest
+        run: docker pull react-app:latest
 
       - name: Update kubeconfig
         run: aws eks --region ap-south-1 update-kubeconfig --name demo-cluster
